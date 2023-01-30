@@ -30,9 +30,10 @@ to_transform = original_image
 ## Normalization_1 recommend
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 to_transform_final = normalizer.transform(to_transform).to(device).squeeze(0)
-to_transform_final = to_transform_final.detach().numpy()  # can't convert to np.uint8
+to_transform_final = to_transform_final.detach().numpy()
 with TiffWriter(Path(pth_out, 'template_1_normalized_gpu4.tif'), bigtiff=True) as tif:
     tif.write(to_transform_final, photometric='rgb')
+
 
 print('Mocenko done')
 

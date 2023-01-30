@@ -25,6 +25,7 @@ class ExtractiveStainNormalizer(object):
         self.stain_matrix_target = self.extractor.get_stain_matrix(target)
         self.target_concentrations = get_concentrations(target, self.stain_matrix_target)
         self.maxC_target = np.percentile(self.target_concentrations, 99, axis=0).reshape((1, 2))
+        print(self.stain_matrix_target, self.maxC_target)
 
     # def test(self, target):
     #     stain_matrix_target = self.extractor.get_stain_matrix(target)
@@ -61,7 +62,7 @@ class ExtractiveStainNormalizer(object):
         maxC_source = np.percentile(I_concentrations, 99, axis=0).reshape((1, 2))
         source_concentrations *= (self.maxC_target / maxC_source)
         tmp = 255 * np.exp(-1 * np.dot(source_concentrations, self.stain_matrix_target))
-        return tmp.reshape(I.shape).astype(np.uint8)
+        return tmp.reshape(I.shape)
 
 
 class LuminosityStandardizer(object):

@@ -61,8 +61,8 @@ def image_reader(path: Path, method='pillow'):
 
 
 class MacenkoNormalizer(nn.Module):
-    HE_REFERENCE = torch.Tensor([[0.5042, 0.1788], [0.7723, 0.8635], [0.3865, 0.4716]])
-    MAX_CON_REFERENCE = torch.Tensor([1.3484, 1.0886])
+    # HE_REFERENCE = torch.Tensor([[0.5042, 0.1788], [0.7723, 0.8635], [0.3865, 0.4716]])
+    # MAX_CON_REFERENCE = torch.Tensor([1.3484, 1.0886])
     """
             Normalize staining appearence of hematoxylin & eosin stained images. Based on [1].
             Parameters
@@ -91,8 +91,8 @@ class MacenkoNormalizer(nn.Module):
         self._beta = beta
         self._transmitted_intensity = transmitted_intensity
         self._learnable = learnable
-        self._target_he_matrix = nn.Parameter(self.HE_REFERENCE, requires_grad=self._learnable)
-        self._target_max_concentration = nn.Parameter(self.MAX_CON_REFERENCE, requires_grad=self._learnable)
+        # self._target_he_matrix = nn.Parameter(self.HE_REFERENCE, requires_grad=self._learnable)
+        # self._target_max_concentration = nn.Parameter(self.MAX_CON_REFERENCE, requires_grad=self._learnable)
 
 
     def convert_rgb_to_OD(self, image_tensor: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -182,8 +182,15 @@ class MacenkoNormalizer(nn.Module):
         return he, concentration, max_concentration
 
 
+    def fit(self, image_tensor: torch.Tensor) -> None:
+        he_matrix, concentration, maximum_concentration = self.__compute_matrices(image_tensor)
+        self.target_he_matrix = nn.Parameter(he_matrix, requires_grad=self._learnable)
+        self.target_concentration = nn.Parameter(concentration, requires_grad=self._learnable)
+        self.target_max_concentration = nn.Parameter(maximum_concentration, requires_grad=self._learnable)
+        print(he_matrix, maximum_concentration)
+
     def __normalize_concentrations(self, concentrations: torch.Tensor, maximum_concentration: torch.Tensor) -> torch.Tensor:
-        concentrations *= (self._target_max_concentration / maximum_concentration).unsqueeze(-1)
+        concentrations *= (self.target_max_concentration / maximum_concentration).unsqueeze(-1)
         return concentrations
 
     def transpose_channels(self, tensor: torch.Tensor) -> torch.Tensor:
@@ -195,7 +202,7 @@ class MacenkoNormalizer(nn.Module):
         batch, classes, height, width = image_tensor.shape
         # recreate the image using reference mixing matrix
         normalised_image_tensor = self._transmitted_intensity * torch.exp(
-            -torch.matmul(self._target_he_matrix, normalized_concentrations)
+            -torch.matmul(self.target_he_matrix, normalized_concentrations)
         )
         normalised_image_tensor[normalised_image_tensor > 255] = 255
         normalised_image_tensor = normalised_image_tensor.T.reshape(batch, height, width, classes)
@@ -203,15 +210,9 @@ class MacenkoNormalizer(nn.Module):
         return normalised_image_tensor
 
 
-    def fit(self, image_tensor: torch.Tensor) -> None:
-        he_matrix, concentration, maximum_concentration = self.__compute_matrices(image_tensor)
-        self._target_he_matrix = nn.Parameter(he_matrix, requires_grad=self._learnable)
-        self._target_max_concentration = nn.Parameter(maximum_concentration, requires_grad=self._learnable)
-        # print(he_matrix, maximum_concentration)
-
     def transform(self, image_tensor: torch.Tensor) -> torch.Tensor:
         he_matrix, concentrations, maximum_concentration = self.__compute_matrices(image_tensor)
         concentrations = self.__normalize_concentrations(concentrations, maximum_concentration)
         tmp = self.__create_normalized_images(concentrations, image_tensor)
-        return tmp
+        return tmp.to(torch.uint8)
 
