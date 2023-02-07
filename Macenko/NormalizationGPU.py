@@ -92,7 +92,7 @@ class MacenkoNormalizer(nn.Module):
         self._transmitted_intensity = transmitted_intensity
         self._learnable = learnable
         # self._target_he_matrix = nn.Parameter(self.HE_REFERENCE, requires_grad=self._learnable)
-        # self._target_max_concentration = nn.Parameter(self.MAX_CON_REFERENCE, requires_grad=self._learnable)
+        # self._target_max_concentration aa= nn.Parameter(self.MAX_CON_REFERENCE, requires_grad=self._learnable)
 
 
     def convert_rgb_to_OD(self, image_tensor: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
