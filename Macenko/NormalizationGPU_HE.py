@@ -7,6 +7,10 @@ import torch
 import torch.nn as nn
 
 
+'''
+Reference for writing HDAB normalization_GPU script, can be removed later
+'''
+
 def transpose_channels(tensor: torch.Tensor) -> torch.Tensor:
     tensor = torch.transpose(tensor, 1, 3)
     tensor = torch.transpose(tensor, 2, 3)
