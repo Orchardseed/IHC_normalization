@@ -12,13 +12,13 @@ Unfinished, NormalizationGPU.py still have error. We got wrong staining vector o
 
 
 ## Path
-template_pth = Path(r'D:\study\Ki67\Ki67_GPU\Data\Image_templates')
+template_pth = Path(r'/Data/Image_templates')
 template = Path(template_pth, 'template_1.tif')
 original_image = NormalizationGPU.image_reader(template, method='tifffile')
-pth_out = Path(r'D:\study\Ki67\Ki67_GPU\Data\Image_normalized')
+pth_out = Path(r'/Data/Image_normalized')
 
 ## Fit model
-model_pth = Path(r'D:\study\Ki67\Ki67_GPU\Data\Models')
+model_pth = Path(r'/Data/Models')
 model = open(Path(model_pth, "macenko1_GPU3.pickle"), "rb")
 normalizer = pickle.load(model)
 model.close()

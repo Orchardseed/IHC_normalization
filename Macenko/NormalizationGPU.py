@@ -8,6 +8,13 @@ import torch.nn as nn
 from torchvision import transforms
 
 
+'''
+Original author for HE normalization: https://github.com/NKI-AI/ahcore/blob/main/ahcore/transforms/image_normalization.py
+
+Image normalization functions for HDAB (GPU)
+
+Unfinished yet
+'''
 
 def is_image(image_tensor):
     """

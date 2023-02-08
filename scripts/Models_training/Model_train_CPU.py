@@ -3,8 +3,8 @@ import pickle
 from pathlib import Path
 
 ## Path
-model_pth = Path(r'D:\study\Ki67\Ki67_GPU\Data\Models')
-template_pth = Path(r'D:\study\Ki67\Ki67_GPU\Data\Image_templates')
+model_pth = Path(r'/Data/Models')
+template_pth = Path(r'/Data/Image_templates')
 template1_pth = Path(template_pth, 'template_1.tif')
 template1 = NormalizationCPU.image_reader(template1_pth, method='tifffile')
 

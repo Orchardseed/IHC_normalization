@@ -6,4 +6,4 @@ spams_bin==2.6.4
 tifffile==2022.10.10
 torch==1.13.0
 torchvision==0.14.0
-notebook==6.4.12
+notebook==6.5.2

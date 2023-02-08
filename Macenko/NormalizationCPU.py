@@ -6,7 +6,9 @@ from PIL import Image
 import tifffile
 
 """
-Original author: https://github.com/sebastianffx/stainlib
+Original author for HE normalization: https://github.com/sebastianffx/stainlib
+
+Image normalization functions for HDAB (CPU)
 """
 
 class ExtractiveStainNormalizer(object):
