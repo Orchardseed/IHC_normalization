@@ -4,6 +4,9 @@ import torch
 import pickle
 from torchvision import transforms
 
+'''
+Unfinished, NormalizationGPU.py still have error. We got wrong staining vector of HDAB.
+'''
 
 ## Path
 model_pth = Path(r'D:\study\Ki67\Ki67_GPU\Data\Models')

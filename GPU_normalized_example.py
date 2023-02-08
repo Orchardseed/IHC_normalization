@@ -6,6 +6,11 @@ from tifffile import TiffWriter
 
 import numpy as np
 
+'''
+Unfinished, NormalizationGPU.py still have error. We got wrong staining vector of HDAB.
+'''
+
+
 ## Path
 template_pth = Path(r'D:\study\Ki67\Ki67_GPU\Data\Image_templates')
 template = Path(template_pth, 'template_1.tif')
