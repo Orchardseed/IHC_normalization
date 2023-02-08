@@ -19,10 +19,12 @@ print(template1.size())
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 normalizer = NormalizationGPU.MacenkoNormalizer()
 target = transforms.ColorJitter(brightness=0.95)(template1)
-normalizer.fit(target.to(device))
+normalizer.fit(target.to(device)) ## The staining vectors of H and DAB will be printed here
+
+
 
 ## Save model
-model = open(Path(model_pth, "macenko1_GPU3.pickle"), "wb")
+model = open(Path(model_pth, "macenko1_GPU3.pickle"), "wb")  ## Remember to change the saved model name
 pickle.dump(normalizer, model)
 model.close()
 print('Model saved')
