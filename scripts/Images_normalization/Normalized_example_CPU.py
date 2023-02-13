@@ -1,18 +1,22 @@
+import sys
+from pathlib import Path
+pth = Path(Path.cwd().parent.parent)
+sys.path.append(str(pth))
+print(pth)
+import pickle
 import numpy as np
 from Macenko import NormalizationCPU
-import pickle
-from pathlib import Path
 from tifffile import TiffWriter
 
 
 ## Path
-template_pth = Path(r'/Data/Image_templates')
+template_pth = Path(pth, 'Data', 'Image_templates')
 template = Path(template_pth, 'template_1.tif')
 original_image = NormalizationCPU.image_reader(template, method='tifffile')
-pth_out = Path(r'/Data/Image_normalized')
+pth_out = Path(pth, 'Data', 'Image_normalized')
 
 ## Fit model
-model_pth = Path(r'/Data/Models')
+model_pth = Path(pth, 'Data', 'Models')
 model = open(Path(model_pth, "macenko1_CPU.pickle"), "rb")
 normalizer = pickle.load(model)
 model.close()
@@ -26,7 +30,7 @@ to_transform = original_image
 ## Normalization_1 recommend
 transformed = normalizer.transform(to_transform)
 to_transform_final = np.transpose(transformed, (2,0,1))
-with TiffWriter(Path(pth_out, 'template_1_normalized_macenko1.tif'), bigtiff=True) as tif:
+with TiffWriter(Path(pth_out, 'template_1_normalized_macenko1.tif'), bigtiff=True) as tif:  ## remember to change the saved image name
     tif.write(to_transform_final, photometric='rgb')
 
 
