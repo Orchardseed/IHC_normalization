@@ -2,6 +2,7 @@ numpy==1.23.5
 opencv_python==4.6.0.66
 Pillow==9.3.0
 spams_bin==2.6.4
+openslide-python==1.2.0
 tifffile==2022.10.10
 torch==1.13.0
 torchvision==0.14.0
