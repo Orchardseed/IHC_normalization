@@ -5,8 +5,9 @@ sys.path.append(str(pth))
 print(pth)
 import pickle
 import numpy as np
-from Macenko import NormalizationCPU
 from tifffile import TiffWriter
+from Macenko import NormalizationCPU
+
 
 
 ## Path

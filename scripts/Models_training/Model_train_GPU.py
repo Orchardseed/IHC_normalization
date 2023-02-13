@@ -1,16 +1,20 @@
-from Macenko import NormalizationGPU
+import sys
 from pathlib import Path
+pth = Path(Path.cwd().parent.parent)
+sys.path.append(str(pth))
+print(pth)
 import torch
 import pickle
 from torchvision import transforms
+from Macenko import NormalizationGPU
 
 '''
 Unfinished, NormalizationGPU.py still have error. We got wrong staining vector of HDAB.
 '''
 
 ## Path
-model_pth = Path(r'/Data/Models')
-template_pth = Path(r'/Data/Image_templates')
+model_pth = Path(pth, 'Data', 'Models')
+template_pth = Path(pth, 'Data', 'Image_templates')
 template1_pth = Path(template_pth, 'template_1.tif')
 template1 = NormalizationGPU.image_reader(template1_pth, method='tifffile')
 print(template1.size())

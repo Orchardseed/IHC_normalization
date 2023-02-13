@@ -1,10 +1,14 @@
-from Macenko import NormalizationGPU
+import sys
 from pathlib import Path
+pth = Path(Path.cwd().parent.parent)
+sys.path.append(str(pth))
+print(pth)
 import torch
 import pickle
-from tifffile import TiffWriter
-
 import numpy as np
+from tifffile import TiffWriter
+from Macenko import NormalizationGPU
+
 
 '''
 Unfinished, NormalizationGPU.py still have error. We got wrong staining vector of HDAB.
@@ -12,13 +16,13 @@ Unfinished, NormalizationGPU.py still have error. We got wrong staining vector o
 
 
 ## Path
-template_pth = Path(r'/Data/Image_templates')
+template_pth = Path(pth, 'Data', 'Image_templates')
 template = Path(template_pth, 'template_1.tif')
 original_image = NormalizationGPU.image_reader(template, method='tifffile')
-pth_out = Path(r'/Data/Image_normalized')
+pth_out = Path(pth, 'Data', 'Image_normalized')
 
 ## Fit model
-model_pth = Path(r'/Data/Models')
+model_pth = Path(pth, 'Data', 'Models')
 model = open(Path(model_pth, "macenko1_GPU3.pickle"), "rb")
 normalizer = pickle.load(model)
 model.close()
