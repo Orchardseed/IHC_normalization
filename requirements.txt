@@ -11,3 +11,4 @@ matplotlib==3.5.3
 geojson==2.5.0
 tqdm==4.64.1
 scikit-image==0.19.3
+imagecodecs==2023.1.23
